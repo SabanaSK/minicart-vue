@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppHeader :cartItems="cart" />
-    <MainContent/>
+    <MainContent @addToCart="addProductToCart"/>
     <MiniCart :cartItems="cart" @removeItem="removeItem" @updateCart="updateCart" />
   </div>
 </template>

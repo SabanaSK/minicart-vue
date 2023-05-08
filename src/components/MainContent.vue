@@ -2,7 +2,7 @@
     <main>
       <div class="album py-5 bg-light">
         <div class="container">
-          <product-list @addToCart="$emit('addToCart', $event)"></product-list>
+          <product-list @addToCart="onAddToCart"></product-list>
         </div>
       </div>
     </main>
@@ -15,6 +15,12 @@
     name: "MainContent",
     components: {
       ProductList
+    },
+
+    methods: {
+      onAddToCart(product) {
+        this.$emit('addToCart', product);
+      }
     }
   };
   </script>

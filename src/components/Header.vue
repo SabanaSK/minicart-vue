@@ -6,9 +6,9 @@
           <strong>My webshop.com</strong>
         </a>
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" 
-            data-toggle="dropdown">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" class="d-inline-block align-text-top mr-1" viewBox="0 0 902.86 902.86" role="img">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown" @click="isOpen = !isOpen">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" class="d-inline-block align-text-top mr-1" viewBox="0 0 902.86 902.86" role="img">
               <path fill="#ffffff" d="M671.504,577.829l110.485-432.609H902.86v-68H729.174L703.128,179.2L0,178.697l74.753,399.129h596.751V577.829z
                      M685.766,247.188l-67.077,262.64H131.199L81.928,246.756L685.766,247.188z"/>
               <path fill="#ffffff" d="M578.418,825.641c59.961,0,108.743-48.783,108.743-108.744s-48.782-108.742-108.743-108.742H168.717
@@ -21,8 +21,16 @@
             </svg>
             Cart
           </button>
-          <div class="minicart dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownMenuButton">
-            <div class="minicart-empty text-center py-5">Nothing in cart</div>
+          <div class="minicart dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownMenuButton" :class="{show: isOpen}">
+            <div v-if="cartItems.length === 0" class="minicart-empty text-center py-5">Nothing in cart</div>
+            <div v-else class="minicart-items">
+              <div v-for="item in cartItems" :key="item.id">
+                <h6>{{ item.name }}</h6>
+                <p>Quantity: {{ item.quantity }}</p>
+                <button @click="increaseQuantity(item)">+</button>
+                <button @click="decreaseQuantity(item)">-</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -33,7 +41,29 @@
 <script>
 export default {
   name: "AppHeader",
-  props: ["cartItems"]
+  props: ["cartItems"],
+  data() {
+    return {
+      isOpen: false,
+    };
+  },
+  methods: {
+    increaseQuantity(item) {
+      item.quantity++;
+      this.updateCart();
+    },
+    decreaseQuantity(item) {
+      if (item.quantity > 1) {
+        item.quantity--;
+        this.updateCart();
+      } else {
+        this.$emit("removeItem", item.id);
+      }
+    },
+    updateCart() {
+      this.$emit("updateCart", this.cartItems);
+    },
+  },
 };
 </script>
 
