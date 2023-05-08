@@ -1,14 +1,12 @@
 <template>
   <div>
-    <AppHeader :cartItems="cart" />
+    <AppHeader :cartItems="cart" @removeItem="removeItem" />
     <MainContent @addToCart="addProductToCart"/>
-    <MiniCart :cartItems="cart" @removeItem="removeItem" @updateCart="updateCart" />
   </div>
 </template>
 
 <script>
 import AppHeader from './components/Header.vue';
-import MiniCart from './components/MiniCart.vue';
 import MainContent from './components/MainContent.vue';
 
 export default {
@@ -16,7 +14,6 @@ export default {
   components: {
     MainContent,
     AppHeader,
-    MiniCart,
   },
   data() {
     return {
@@ -35,10 +32,7 @@ export default {
     },
     removeItem(id) {
       this.cart = this.cart.filter(item => item.id !== id);
-    },
-    updateCart(updatedCart) {
-      this.cart = updatedCart;
-    },
+    }
   },
 };
 </script>
