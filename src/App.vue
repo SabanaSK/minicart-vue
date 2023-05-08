@@ -1,28 +1,44 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <AppHeader :cartItems="cart" />
+    <MainContent/>
+    <MiniCart :cartItems="cart" @removeItem="removeItem" @updateCart="updateCart" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AppHeader from './components/Header.vue';
+import MiniCart from './components/MiniCart.vue';
+import MainContent from './components/MainContent.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
-</script>
+    MainContent,
+    AppHeader,
+    MiniCart,
+  },
+  data() {
+    return {
+      cart: [],
+    };
+  },
+  methods: {
+    addProductToCart(product) {
+      const existingProduct = this.cart.find(item => item.id === product.id);
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+      if (existingProduct) {
+        existingProduct.quantity++;
+      } else {
+        this.cart.push({ ...product, quantity: 1 });
+      }
+    },
+    removeItem(id) {
+      this.cart = this.cart.filter(item => item.id !== id);
+    },
+    updateCart(updatedCart) {
+      this.cart = updatedCart;
+    },
+  },
+};
+</script>
