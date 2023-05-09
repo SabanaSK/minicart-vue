@@ -18,11 +18,11 @@
     <div class="minicart dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownMenuButton" :class="{show: isOpen}">
       <div v-if="cartItems.length === 0" class="minicart-empty text-center py-5">Nothing in cart</div>
       <div v-else class="minicart-items">
-        <div v-for="item in cartItems" :key="item.id">
-          <h6>{{ item.name }}</h6>
-          <p>Quantity: {{ item.quantity }}</p>
-          <button @click="increaseQuantity(item)">+</button>
-          <button @click="decreaseQuantity(item)">-</button>
+        <div v-for="item in cartItems" class="item" :key="item.id">
+          <h6 class="items-cart">{{ item.name }}</h6>
+          <p class="quantity">Quantity: {{ item.quantity }}</p>
+          <button class="button-in" @click="increaseQuantity(item)">+</button>
+          <button class="button-de" @click="decreaseQuantity(item)">-</button>
         </div>
       </div>
     </div>
@@ -61,5 +61,38 @@ export default {
 <style>
 .minicart {
   width: 350px;
+}
+
+.item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #b2b2b2;
+  padding: 1em;
+}
+
+.items-cart, .quantity {
+  padding: 1em;
+}
+
+.button-in{
+  margin: 1em; 
+}
+
+.button-in, .button-de {
+  background-color: #ffffff;
+  border: 1px solid #b2b2b2;
+  border-radius: 14px;
+  color: #000000;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.button-in:hover, .button-de:hover {
+  background-color: #027bff;
+  color: #ffffff;
 }
 </style>
