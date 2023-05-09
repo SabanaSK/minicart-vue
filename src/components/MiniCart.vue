@@ -18,13 +18,20 @@
     <div class="minicart dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownMenuButton" :class="{show: isOpen}">
       <div v-if="cartItems.length === 0" class="minicart-empty text-center py-5">Nothing in cart</div>
       <div v-else class="minicart-items">
-        <div v-for="item in cartItems" class="item" :key="item.id">
-          <h6 class="items-cart">{{ item.name }}</h6>
-          <p class="quantity">Quantity: {{ item.quantity }}</p>
-          <button class="button-in" @click="increaseQuantity(item)">+</button>
-          <button class="button-de" @click="decreaseQuantity(item)">-</button>
-        </div>
+    <div v-for="item in cartItems" class="item" :key="item.id">
+      <div class="item-header">
+        <img :src="item.image_link" class="img-cart" alt="">
+        <h6 class="items-cart">{{ item.name }}</h6>
       </div>
+      <div class="item-controls">
+        <button class="button-in" @click="increaseQuantity(item)">+</button>
+        <p class="quantity">{{ item.quantity }}</p>
+        <button class="button-de" @click="decreaseQuantity(item)">-</button>
+        <p class="items-cart">$ {{ item.price }} </p>
+      </div>
+    </div>
+    <p class="items-cart">Total: $ {{ cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0) }}</p>
+    </div>
     </div>
   </div>
 </template>
@@ -60,35 +67,50 @@ export default {
 
 <style>
 .minicart {
-  width: 350px;
+  width: 400px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
-.item{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #b2b2b2;
+.img-cart {
+  width: 80px;
+  height: 80px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 0 0 1em;
+  }
+
+  .item-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .item-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: auto;
+  }
+
+.items-cart {
   padding: 1em;
-}
-
-.items-cart, .quantity {
-  padding: 1em;
-}
-
-.button-in{
-  margin: 1em; 
 }
 
 .button-in, .button-de {
-  background-color: #ffffff;
-  border: 1px solid #b2b2b2;
-  border-radius: 14px;
+  background-color: #f8f9fa;
+  border: none;
+  border-radius: 9px;
   color: #000000;
-  padding: 5px 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  margin: 0.5em;
+  padding: 0.25em 0.5em;
 }
 
 .button-in:hover, .button-de:hover {

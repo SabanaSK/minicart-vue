@@ -8,7 +8,7 @@
           <h6 class="card-text mb-3">{{ product.name }}</h6>
           <div class="d-flex mt-auto justify-content-between align-items-center">
             <button type="button" class="btn btn-primary btn-sm" @click="addToCart(product)">Buy</button>
-            <p class="m-0">{{ product.price }}</p>
+            <p class="m-0">$ {{ product.price }}</p>
           </div>
         </div>
       </div>
